@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000
 // middleware
 app.use(cors({
     origin: ['http://localhost:5173'],
-    credentials: true
+    credentials: true,
 }))
 app.use(express.json())
 app.use(cookieParser())
@@ -67,8 +67,19 @@ async function run() {
                 .cookie('token', token, {
                     httpOnly: true,
                     secure: false,
+                    
+                  
+
                 })
                 .send({ success: true })
+        })
+
+        
+
+        app.post('/logout', async (req, res) => {
+            const user = req.body;
+            console.log('logging out', user);
+            res.clearCookie('token', { maxAge: 0, sameSite: 'none', secure:true }).send({ success: true })
         })
 
 
